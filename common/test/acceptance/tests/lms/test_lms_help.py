@@ -2,12 +2,15 @@
 Test Help links in LMS
 """
 
+from django.conf import settings
+
 from common.test.acceptance.fixtures.course import CourseFixture
 from common.test.acceptance.pages.lms.instructor_dashboard import InstructorDashboardPage
 from common.test.acceptance.tests.discussion.helpers import CohortTestMixin
 from common.test.acceptance.tests.helpers import assert_opened_help_link_is_correct, url_for_help
 from common.test.acceptance.tests.lms.test_lms_instructor_dashboard import BaseInstructorDashboardTest
 from common.test.acceptance.tests.studio.base_studio_test import ContainerBase
+from openedx.core.djangoapps.site_configuration import helpers
 
 
 class TestCohortHelp(ContainerBase, CohortTestMixin):
@@ -91,6 +94,6 @@ class InstructorDashboardHelp(BaseInstructorDashboardTest):
         When I click "Help"
         Then I see help about the instructor dashboard in a new tab
         """
-        href = url_for_help('course_author', '/CA_instructor_dash_help.html')
+        href = helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK)
         self.instructor_dashboard_page.click_help()
         assert_opened_help_link_is_correct(self, href)
