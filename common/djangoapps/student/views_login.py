@@ -268,7 +268,7 @@ def _handle_failed_authentication(user):
         if LoginFailures.is_feature_enabled():
             LoginFailures.increment_lockout_counter(user)
 
-        if not user.is_active():
+        if not user.is_active:
             _log_and_raise_inactive_user_auth_error(user)
 
         # if we didn't find this username earlier, the account for this email
@@ -422,7 +422,7 @@ def login_user(request):
         if not was_authenticated_third_party:
             possibly_authenticated_user = _authenticate_first_party(request, email_user)
 
-        if possibly_authenticated_user is None or not possibly_authenticated_user.is_active():
+        if possibly_authenticated_user is None or not possibly_authenticated_user.is_active:
             _handle_failed_authentication(email_user)
 
         _handle_successful_authentication_and_login(possibly_authenticated_user, request)
