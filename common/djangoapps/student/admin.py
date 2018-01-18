@@ -44,7 +44,8 @@ class CourseAccessRoleForm(forms.ModelForm):
         """
         Validate the course id
         """
-        return clean_course_id(self)
+        if self.cleaned_data['course_id']:
+            return clean_course_id(self)
 
     def clean_org(self):
         """If org and course-id exists then Check organization name
